@@ -1,6 +1,6 @@
 let sSubmit = document.querySelector("#signUp")
 let lSubmit = document.querySelector("#login")
-
+let host = "http://192.168.1.2:4000"
 sSubmit.addEventListener("click", function(e){
 
   let username = document.querySelector("#signUsername")?.value
@@ -25,15 +25,31 @@ sSubmit.addEventListener("click", function(e){
     window.location = "/chat/index.html"
 })
 
-lSubmit.addEventListener("click",(e) => {
+lSubmit.addEventListener("click",async (e) => {
   e.preventDefault()
   let username = document.querySelector("#logname").value
   let password = document.querySelector("#logpass").value
 
-  if(!isValid(username) || !isValid(password)|| password.length < 6) return alert("Wrong input")
+  console.log(JSON.stringify({username,password}));
+  // if(!isValid(username) || !isValid(password)|| password.length < 6) return alert("Wrong input")
 
-  window.localStorage.user_id = 1
-  window.location = "/chat/index.html"
+  const user = {
+    username: username,
+    password: password,
+  }
+  let data = await fetch("http://localhost:4000/login",{
+    method: "POST",
+    headers:{
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    mode:"no-cors",
+    body: JSON.stringify( user )
+  })
+  data =await data.json()
+  console.log(data)
+  // console.log(data)
+  // window.location = "/chat/index.html"
 })
 
 function isValid(str){
