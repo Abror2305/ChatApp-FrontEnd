@@ -2,7 +2,7 @@
 
 let sSubmit = document.querySelector("#signUp");
 let lSubmit = document.querySelector("#login");
-let host = "http://192.168.1.3:4000";
+let host = "http://localhost:4000";
 sSubmit.addEventListener("click",async function (e) {
     let username = document.querySelector("#signUsername")?.value;
     let age = document.querySelector("#signAge")?.value;
@@ -25,7 +25,7 @@ sSubmit.addEventListener("click",async function (e) {
     if (data?.status !== 200) {
         return alert(data.message)
     }
-    window.localStorage.setItem("user_id",data.user_id)
+    window.localStorage.setItem("user",data.user)
     window.location = "/chat/index.html"
 });
 
@@ -41,7 +41,7 @@ lSubmit.addEventListener("click", async (e) => {
         password,
     };
 
-    let data = await fetch(host + "/login", {
+    let data = await fetch(host + "/login?u='eyJhbGciOiJIUzI1NiJ9.MQ.TG9WqbPqKkAKRy11uqhBMpUZE-cQ8VhMTtGwlMOC_Gc'", {
         method: "POST",
         body: JSON.stringify(user),
     });
@@ -49,7 +49,7 @@ lSubmit.addEventListener("click", async (e) => {
     if (data?.status !== 200) {
         return alert(data.message)
     }
-    window.localStorage.setItem("user_id",data.user_id)
+    window.localStorage.setItem("user",data.user)
     window.location = "/chat/index.html"
 });
 
