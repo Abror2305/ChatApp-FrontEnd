@@ -2,13 +2,13 @@
 
 let sSubmit = document.querySelector("#signUp");
 let lSubmit = document.querySelector("#login");
-let host = "http://localhost:4000";
-sSubmit.addEventListener("click",async function (e) {
+let host = "http://192.168.1.8:4000";
+sSubmit.addEventListener("click",async function () {
     let username = document.querySelector("#signUsername")?.value;
     let age = document.querySelector("#signAge")?.value;
     let password = document.querySelector("#signPasswd")?.value;
 
-    console.log(username, age, password);
+    
 
     const user = {
         username,
@@ -29,7 +29,7 @@ sSubmit.addEventListener("click",async function (e) {
     window.location = "/chat/index.html"
 });
 
-lSubmit.addEventListener("click", async (e) => {
+lSubmit.addEventListener("click", async () => {
     let username = document.querySelector("#logname").value;
     let password = document.querySelector("#logpass").value;
 
@@ -54,6 +54,5 @@ lSubmit.addEventListener("click", async (e) => {
 });
 
 function isValid(str) {
-    if (!str || str.length < 3 || str.length > 20) return false;
-    return true;
+    return !(!str || str.length < 3 || str.length > 20);
 }

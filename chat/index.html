@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>Whatsapp web chat template - Bootdey.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -20,14 +18,14 @@
         <div class="row heading">
           <div class="col-sm-3 col-xs-3 heading-avatar">
             <div class="heading-avatar-icon">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image">
             </div>
           </div>
           <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
             <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
           </div>
           <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
-            <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+            <i class="fa fa-comments fa-2x  pull-right" id="newChat" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -40,7 +38,8 @@
           </div>
         </div>
 
-        <div class="row sideBar">
+        <div class="row sideBar" id="actUsers">
+<!--          <div id="actUsers">-->
           <div class="row sideBar-body">
             <div class="col-sm-3 col-xs-3 sideBar-avatar">
               <div class="avatar-icon">
@@ -79,8 +78,9 @@
               </div>
             </div>
           </div>
-        </div>
+<!--        </div>-->
       </div>
+    </div>
 
       <!-- Onclick new Chat -->
       <div class="side-two">
@@ -105,6 +105,7 @@
         </div>
 
         <div class="row compose-sideBar">
+        <div id="allUsers">
           <div class="row sideBar-body">
             <div class="col-sm-3 col-xs-3 sideBar-avatar">
               <div class="avatar-icon">
@@ -165,6 +166,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </div>
 
@@ -174,11 +176,11 @@
       <div class="row heading">
         <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
           <div class="heading-avatar-icon">
-            <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
+            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="image" id="selectedImg">
           </div>
         </div>
         <div class="col-sm-8 col-xs-7 heading-name">
-          <a class="heading-name-meta">Abror Doe
+          <a class="heading-name-meta" id="selectedUser">Abror Doe
           </a>
           <span class="heading-online">Online</span>
         </div>
@@ -255,6 +257,7 @@ $(function(){
     });
 })
 </script>
+<script src="./util.js"></script>
 <script src="./index.js"></script>
 </body>
 </html>
