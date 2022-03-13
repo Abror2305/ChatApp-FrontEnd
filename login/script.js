@@ -2,7 +2,7 @@
 
 let sSubmit = document.querySelector("#signUp");
 let lSubmit = document.querySelector("#login");
-let host = "http://192.168.1.8:4000";
+let host = "http://192.168.1.3:4000";
 sSubmit.addEventListener("click",async function () {
     let username = document.querySelector("#signUsername")?.value;
     let age = document.querySelector("#signAge")?.value;
@@ -41,7 +41,7 @@ lSubmit.addEventListener("click", async () => {
         password,
     };
 
-    let data = await fetch(host + "/login?u='eyJhbGciOiJIUzI1NiJ9.MQ.TG9WqbPqKkAKRy11uqhBMpUZE-cQ8VhMTtGwlMOC_Gc'", {
+    let data = await fetch(host + "/login?'", {
         method: "POST",
         body: JSON.stringify(user),
     });

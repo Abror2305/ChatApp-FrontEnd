@@ -14,9 +14,15 @@ window.addEventListener("DOMContentLoaded",async() => {
 	let users =await fetch(`${host}/users?user=${lUser}`,{
 		method: "GET"
 	})
+	if(users.status !== 200) return window.location = "/"
 	users = await users.json()
 
-	if(users.status !== 200) return window.location = "/"
+	let userAct =await fetch(`${host}/userAct?user=${lUser}`,{
+		method: "GET"
+	})
+
+	console.log(userAct.status)
+	console.log(await userAct.json())
 
 	newUser.addEventListener("click",() => {
 		renderAllUsers(users.users,true)
