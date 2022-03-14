@@ -1,8 +1,8 @@
 'use strict'
 
+const lUser = window.localStorage?.user
 window.addEventListener("DOMContentLoaded", async (data, all) => {
 
-	const lUser = window.localStorage?.user
 	const newUser = document.querySelector("#newChat")
 	const userAvatar = document.querySelector("#userAvatar")
 
@@ -89,13 +89,37 @@ function renderAllUsers(data,all){
 		body.append(avatar, main)
 		users.append(body)
 
-		body.addEventListener("click", () => {
+		body.addEventListener("click", async () => {
 			const selectedUser = document.querySelector("#selectedUser")
 			const selectedImg = document.querySelector("#selectedImg")
 			selectedUser.dataset.id = user.user_id
 			selectedUser.textContent = user.username
 			selectedImg.src = "./defaultImage.png"
+			let messages = await fetch(`${host}/messages?from_id=${user.user_id}&user=${lUser}`)
+			messages = await messages.json()
+			renderChats(messages.chats,user.user_id)
 		})
 	}
 
+}
+function renderChats(data,reciverId){
+	const conversation = document.querySelector("#conversation")
+	conversation.innerHTML = ""
+	for (let chat of data) {
+		let [body,column,option,messgeText,time] = createElements("div","div","div","div","span")
+		let reciver = chat.from_id === reciverId
+		body.classList.add("row","message-body")
+		column.classList.add("col-sm-12",reciver ? "message-main-sender" : "message-main-receiver")
+		option.classList.add(reciver ? "sender" : "receiver")
+		messgeText.classList.add("message-text")
+		time.classList.add("message-time", "pull-right")
+		messgeText.innerText = chat.message
+
+		time.textContent = new Date(chat.date).toLocaleTimeString("it-IT")
+
+		option.append(messgeText,time)
+		column.append(option)
+		body.append(column)
+		conversation.append(body)
+	}
 }
