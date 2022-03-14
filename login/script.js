@@ -2,13 +2,11 @@
 
 let sSubmit = document.querySelector("#signUp");
 let lSubmit = document.querySelector("#login");
-let host = "http://192.168.1.3:4000";
+let host = "http://192.168.1.8:4000";
 sSubmit.addEventListener("click",async function () {
     let username = document.querySelector("#signUsername")?.value;
     let age = document.querySelector("#signAge")?.value;
     let password = document.querySelector("#signPasswd")?.value;
-
-    
 
     const user = {
         username,

@@ -1,9 +1,29 @@
-const host = "http://192.168.1.3:4000"
+const host = "http://192.168.1.8:4000"
 
-function idToUser(users,id){}
+/**
+ *
+ * @param ids{[]}
+ * @param users{[]}
+ * @returns {[]}
+ */
+function idToUser(ids,users){
+    return users.filter(el => ids?.includes(el.user_id))
+}
+
+/**
+ *
+ * @param string{string}
+ * @returns {string}
+ */
 function capitalize(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
+
+/**
+ *
+ * @param args{string}
+ * @returns {*[]}
+ */
 function createElements(...args){
     return args.map(el => document.createElement(el))
 }

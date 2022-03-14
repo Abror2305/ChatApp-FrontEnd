@@ -1,35 +1,54 @@
 'use strict'
 
-window.addEventListener("DOMContentLoaded",async() => {
+window.addEventListener("DOMContentLoaded", async (data, all) => {
 
-
-	// agar user_id localstorageda bo'lmasa homega qaytarib yuboradi
 	const lUser = window.localStorage?.user
 	const newUser = document.querySelector("#newChat")
+	const userAvatar = document.querySelector("#userAvatar")
 
+	// agar user_id localstorageda bo'lmasa homega qaytarib yuboradi
 	if(!lUser){
 		window.location = "/"
 	}
-	
+
+	// get All users
 	let users =await fetch(`${host}/users?user=${lUser}`,{
 		method: "GET"
 	})
+
+	// If status not equal to 200 return to log in register page
 	if(users.status !== 200) return window.location = "/"
 	users = await users.json()
 
-	let userAct =await fetch(`${host}/userAct?user=${lUser}`,{
+	userAvatar.src = "./defaultImage.png"
+
+	// Get user activities
+	let userActivities =await fetch(`${host}/userAct?user=${lUser}`,{
 		method: "GET"
 	})
 
-	console.log(userAct.status)
-	console.log(await userAct.json())
+	// get contacts
+	let { userAct } = await userActivities.json()
+	console.log(userAct)
 
+	// function id to user, /userAct response only ids
+	let userContacts = idToUser(userAct?.contact,users.users)
+
+	// render Active users
+	renderAllUsers(userContacts, all)
+
+	// onclick new chat render all users
 	newUser.addEventListener("click",() => {
 		renderAllUsers(users.users,true)
 	})
 
 })
 
+/**
+ *
+ * @param data{Array}
+ * @param all{boolean}
+ */
 function renderAllUsers(data,all){
 	let users;
 	if(all){
