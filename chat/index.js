@@ -1,11 +1,15 @@
 'use strict'
 
 const lUser = window.localStorage?.user
-window.addEventListener("DOMContentLoaded", async (data, all) => {
+window.addEventListener("DOMContentLoaded", async () => {
 
 	const newUser = document.querySelector("#newChat")
 	const userAvatar = document.querySelector("#userAvatar")
-
+	const sendBtn = document.querySelector("#sendBtn")
+	const searchText = document.querySelector("#searchText")
+	const composeText = document.querySelector("#composeText")
+	const logOut = document.querySelector("#logOut")
+	const userName = document.querySelector("#userName")
 	// agar user_id localstorageda bo'lmasa homega qaytarib yuboradi
 	if(!lUser){
 		window.location = "/"
@@ -21,6 +25,7 @@ window.addEventListener("DOMContentLoaded", async (data, all) => {
 	users = await users.json()
 
 	userAvatar.src = "./defaultImage.png"
+	userName.textContent = capitalize(users.username)
 
 	// Get user activities
 	let userActivities =await fetch(`${host}/userAct?user=${lUser}`,{
@@ -29,17 +34,63 @@ window.addEventListener("DOMContentLoaded", async (data, all) => {
 
 	// get contacts
 	let { userAct } = await userActivities.json()
-	console.log(userAct)
 
 	// function id to user, /userAct response only ids
 	let userContacts = idToUser(userAct?.contact,users.users)
 
 	// render Active users
-	renderAllUsers(userContacts, all)
+	renderAllUsers(userContacts)
 
 	// onclick new chat render all users
 	newUser.addEventListener("click",() => {
 		renderAllUsers(users.users,true)
+	})
+	const messageText = document.querySelector("#messageText")
+	messageText.addEventListener("keyup",(e) => {
+		if(e.keyCode ==13 && !e.shiftKey){
+			sendBtn.click()
+		}
+	})
+	sendBtn.addEventListener('click',async () => {
+		const selectedUser = document.querySelector("#selectedUser")
+		const messageText = document.querySelector("#messageText")
+		const user = selectedUser.dataset.id
+		let  message = messageText.value.trim()
+
+		if(!user) return alert("Please select user")
+		if(!message) return alert("Please write message")
+		
+		let send = await fetch(host+"/messages",{
+			method: "POST",
+			body: JSON.stringify({
+				user: lUser,
+				message,
+				from_id: user
+			})
+		})
+		if(send.status === 200){
+			let messages = await fetch(`${host}/messages?from_id=${user}&user=${lUser}`)
+			messages = await messages.json()
+			renderChats(messages.chats,+user)
+			messageText.value = ""
+		}
+	})
+	searchText.addEventListener("keyup",(e)=> {
+		let text = searchText.value.trim().toLowerCase()
+		let searchUser = userContacts.filter((el) => el.username.toLowerCase().includes(text))
+		renderAllUsers(searchUser)
+	})
+
+	composeText.addEventListener("keyup", () => {
+		let text = composeText.value.trim().toLowerCase()
+		let searchUser = users.users.filter((el) => el.username.toLowerCase().includes(text))
+		renderAllUsers(searchUser,true)
+	})
+	logOut.addEventListener("click",(e)=>{
+		if(confirm("Do you really want to log out?")){
+			window.localStorage.removeItem("user")
+			window.location.reload()
+		}
 	})
 
 })
@@ -61,7 +112,6 @@ function renderAllUsers(data,all){
 
 
 	for (const user of data) {
-
 		user.username = capitalize(user.username)
 		let [ body, avatar, avatarIcon, icon, main, row, name, nameMeta, time, pullRight] = createElements('div', 'div', 'div', 'img', 'div', 'div', 'div', 'span', 'div', 'span')
 		body.classList.add("row", "sideBar-body")
@@ -87,7 +137,7 @@ function renderAllUsers(data,all){
 		row.append(name, time)
 		main.append(row)
 		body.append(avatar, main)
-		users.append(body)
+		users.prepend(body)
 
 		body.addEventListener("click", async () => {
 			const selectedUser = document.querySelector("#selectedUser")

@@ -21,8 +21,10 @@
               <img id="userAvatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image">
             </div>
           </div>
+          <p class="col-sm-1 col-xs-1"><strong id="userName">Abror</strong></p>
           <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
-            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+            <i id="logOut" class="fa fa-sign-out fa-2x  pull-right" aria-hidden="true"></i>
+            <!-- <i class="bi bi-box-arrow-left"></i> -->
           </div>
           <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
             <i class="fa fa-comments fa-2x  pull-right" id="newChat" aria-hidden="true"></i>
@@ -222,17 +224,17 @@
       </div>
 
       <div class="row reply">
-        <div class="col-sm-1 col-xs-1 reply-emojis">
+        <!-- <div class="col-sm-1 col-xs-1 reply-emojis">
           <i class="fa fa-smile-o fa-2x"></i>
-        </div>
+        </div> -->
         <div class="col-sm-9 col-xs-9 reply-main">
-          <textarea class="form-control" rows="1" id="comment"></textarea>
+          <textarea class="form-control" rows="1" id="messageText"></textarea>
         </div>
-        <div class="col-sm-1 col-xs-1 reply-recording">
+        <!-- <div class="col-sm-1 col-xs-1 reply-recording">
           <i class="fa fa-microphone fa-2x" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <div class="col-sm-1 col-xs-1 reply-send">
-          <i class="fa fa-send fa-2x" aria-hidden="true"></i>
+          <i class="fa fa-send fa-2x" id="sendBtn" aria-hidden="true"></i>
         </div>
       </div>
     </div>

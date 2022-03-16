@@ -18,7 +18,9 @@ body {
 .fa-2x {
   font-size: 1.5em;
 }
-
+.reply-main{
+  width: 91%;
+}
 .app {
   position: relative;
   overflow: hidden;
@@ -581,4 +583,8 @@ body {
     padding: 5px 2px 5px 0 !important;
     font-size: 1.8em !important;
   }
+}
+strong {
+  /* font-weight: bold; */
+  font-size: 20px;
 }
