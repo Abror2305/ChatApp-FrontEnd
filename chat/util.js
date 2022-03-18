@@ -1,14 +1,4 @@
-const host = "http://localhost:4000"
-
-/**
- *
- * @param ids{[]}
- * @param users{[]}
- * @returns {[]}
- */
-function idToUser(ids,users){
-    return users.filter(el => ids?.includes(el.user_id))
-}
+const host = "https://chatappnodejs23.herokuapp.com"
 
 /**
  *

@@ -554,6 +554,7 @@ body {
   }
   .reply {
     height: 70px;
+    /*display: flex;*/
   }
   .reply-emojis {
     padding: 5px 0 !important;
@@ -587,4 +588,7 @@ body {
 strong {
   /* font-weight: bold; */
   font-size: 20px;
+}
+#sendingArea{
+  display: none;
 }

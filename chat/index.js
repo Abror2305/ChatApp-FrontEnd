@@ -16,9 +16,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	}
 
 	// get All users
-	let users =await fetch(`${host}/users?user=${lUser}`,{
-		method: "GET"
-	})
+	let users =await fetch(`${host}/users?user=${lUser}`)
 
 	// If status not equal to 200 return to log in register page
 	if(users.status !== 200) return window.location = "/"
@@ -28,18 +26,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 	userName.textContent = capitalize(users.username)
 
 	// Get user activities
-	let userActivities =await fetch(`${host}/userAct?user=${lUser}`,{
-		method: "GET"
-	})
+	let userActivities =await fetch(`${host}/userAct?user=${lUser}`)
 
 	// get contacts
 	let { userAct } = await userActivities.json()
 
-	// function id to user, /userAct response only ids
-	let userContacts = idToUser(userAct?.contact,users.users)
 
 	// render Active users
-	renderAllUsers(userContacts)
+	renderAllUsers(userAct,false)
 
 	// onclick new chat render all users
 	newUser.addEventListener("click",() => {
@@ -47,7 +41,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	})
 	const messageText = document.querySelector("#messageText")
 	messageText.addEventListener("keyup",(e) => {
-		if(e.keyCode ==13 && !e.shiftKey){
+		if(e.keyCode ===13 && !e.shiftKey){
 			sendBtn.click()
 		}
 	})
@@ -68,17 +62,15 @@ window.addEventListener("DOMContentLoaded", async () => {
 				from_id: user
 			})
 		})
-		if(send.status === 200){
-			let messages = await fetch(`${host}/messages?from_id=${user}&user=${lUser}`)
-			messages = await messages.json()
-			renderChats(messages.chats,+user)
-			messageText.value = ""
-		}
+		let messages = await fetch(`${host}/messages?from_id=${user}&user=${lUser}`)
+		messages = await messages.json()
+		renderChats(messages.chats,+user)
+		messageText.value = ""
 	})
 	searchText.addEventListener("keyup",(e)=> {
 		let text = searchText.value.trim().toLowerCase()
-		let searchUser = userContacts.filter((el) => el.username.toLowerCase().includes(text))
-		renderAllUsers(searchUser)
+		let searchUser = userAct.filter((el) => el.username.toLowerCase().includes(text))
+		renderAllUsers(searchUser,false)
 	})
 
 	composeText.addEventListener("keyup", () => {
@@ -140,11 +132,23 @@ function renderAllUsers(data,all){
 		users.prepend(body)
 
 		body.addEventListener("click", async () => {
+			const sendingArea = document.querySelector("#sendingArea")
+			const messageText = document.querySelector("#messageText")
+
+			if(user.username === "Deleted Account"){
+				sendingArea.style.display = "none"
+			}else{
+				sendingArea.style.display = "block"
+				messageText.focus()
+			}
 			const selectedUser = document.querySelector("#selectedUser")
 			const selectedImg = document.querySelector("#selectedImg")
+			const img = document.createElement("img")
 			selectedUser.dataset.id = user.user_id
 			selectedUser.textContent = user.username
-			selectedImg.src = "./defaultImage.png"
+			selectedImg.innerHTML = ""
+			img.src = "./defaultImage.png"
+			selectedImg.append(img)
 			let messages = await fetch(`${host}/messages?from_id=${user.user_id}&user=${lUser}`)
 			messages = await messages.json()
 			renderChats(messages.chats,user.user_id)
