@@ -62,12 +62,16 @@ window.addEventListener("DOMContentLoaded", async () => {
 				from_id: user
 			})
 		})
+		if(send.status !== 200 ){
+			message = await send.json()
+			alert(message.message)
+		}
 		let messages = await fetch(`${host}/messages?from_id=${user}&user=${lUser}`)
 		messages = await messages.json()
 		renderChats(messages.chats,+user)
 		messageText.value = ""
 	})
-	searchText.addEventListener("keyup",(e)=> {
+	searchText.addEventListener("keyup",()=> {
 		let text = searchText.value.trim().toLowerCase()
 		let searchUser = userAct.filter((el) => el.username.toLowerCase().includes(text))
 		renderAllUsers(searchUser,false)
@@ -78,7 +82,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 		let searchUser = users.users.filter((el) => el.username.toLowerCase().includes(text))
 		renderAllUsers(searchUser,true)
 	})
-	logOut.addEventListener("click",(e)=>{
+	logOut.addEventListener("click",()=>{
 		if(confirm("Do you really want to log out?")){
 			window.localStorage.removeItem("user")
 			window.location.reload()
