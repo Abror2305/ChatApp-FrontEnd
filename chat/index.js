@@ -12,17 +12,17 @@ window.addEventListener("DOMContentLoaded", async () => {
 	const userName = document.querySelector("#userName")
 	// agar user_id localstorageda bo'lmasa homega qaytarib yuboradi
 	if(!lUser){
-		window.location = "/"
+		window.location = "/login/"
 	}
 
 	// get All users
 	let users =await fetch(`${host}/users?user=${lUser}`)
 
 	// If status not equal to 200 return to log in register page
-	if(users.status !== 200) return window.location = "/"
+	if(users.status !== 200) return window.location = "/login/"
 	users = await users.json()
 
-	userAvatar.src = "./defaultImage.png"
+	userAvatar.src = "/chat/defaultImage.png"
 	userName.textContent = capitalize(users.username)
 
 	// Get user activities
@@ -120,7 +120,7 @@ function renderAllUsers(data,all){
 		nameMeta.classList.add("name-meta");
 		time.classList.add("col-sm-4", "col-xs-4", "pull-right", "sideBar-time");
 		pullRight.classList.add("time-meta", "pull-right");
-		icon.src = "./defaultImage.png";
+		icon.src = "/chat/defaultImage.png";
 
 		nameMeta.textContent = user.username;
 		// pullRight.textContent = <>;
@@ -151,7 +151,7 @@ function renderAllUsers(data,all){
 			selectedUser.dataset.id = user.user_id
 			selectedUser.textContent = user.username
 			selectedImg.innerHTML = ""
-			img.src = "./defaultImage.png"
+			img.src = "/chat/defaultImage.png"
 			selectedImg.append(img)
 			let messages = await fetch(`${host}/messages?from_id=${user.user_id}&user=${lUser}`)
 			messages = await messages.json()

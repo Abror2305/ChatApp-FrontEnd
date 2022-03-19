@@ -24,7 +24,7 @@ sSubmit.addEventListener("click",async function () {
         return alert(data.message)
     }
     window.localStorage.setItem("user",data.user)
-    window.location = "/chat/index.html"
+    window.location = "../"
 });
 
 lSubmit.addEventListener("click", async () => {
@@ -48,7 +48,7 @@ lSubmit.addEventListener("click", async () => {
         return alert(data.message)
     }
     window.localStorage.setItem("user",data.user)
-    window.location = "/chat/index.html"
+    window.location = "../index.html"
 });
 
 function isValid(str) {
