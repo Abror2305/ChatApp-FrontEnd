@@ -1,4 +1,4 @@
-const host = "http://192.168.1.8:4000"
+const host = "https://chatappnodejs23.herokuapp.com"
 
 /**
  *

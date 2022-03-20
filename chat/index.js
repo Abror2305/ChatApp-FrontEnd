@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	if(users.status !== 200) return window.location = "/login/"
 	users = await users.json()
 
-	userAvatar.src = "/chat/defaultImage.png"
+	userAvatar.src = users.avatar
 	userName.textContent = capitalize(users.username)
 
 	// Get user activities
@@ -95,15 +95,17 @@ window.addEventListener("DOMContentLoaded", async () => {
 	deleteAccount.addEventListener("click",async () => {
 		if (!confirm("Are you sure you want to delete your account?")) return
 		let password = prompt("Enter your password to delete your account")
+		let data = JSON.stringify({
+			user: lUser,
+			password,
+		})
+		console.log(data)
 		let result = await fetch(`${host}/users?`,{
-			method: 'DELETE',
-			body: JSON.stringify({
-				user: lUser,
-				password: `${password}`
-			})
+			method: 'POST',
+			body: data,
 		})
 		if(result.status !== 200){
-			alert("Incorrect password")
+			return alert("Incorrect password")
 		}
 		alert("Account successfully deleted")
 		window.location.reload()
@@ -139,7 +141,7 @@ function renderAllUsers(data,all){
 		nameMeta.classList.add("name-meta");
 		time.classList.add("col-sm-4", "col-xs-4", "pull-right", "sideBar-time");
 		pullRight.classList.add("time-meta", "pull-right");
-		icon.src = "/chat/defaultImage.png";
+		icon.src = user.avatar;
 
 		nameMeta.textContent = user.username;
 		// pullRight.textContent = <>;
@@ -170,7 +172,7 @@ function renderAllUsers(data,all){
 			selectedUser.dataset.id = user.user_id
 			selectedUser.textContent = user.username
 			selectedImg.innerHTML = ""
-			img.src = "/chat/defaultImage.png"
+			img.src = user.avatar
 			selectedImg.append(img)
 			let messages = await fetch(`${host}/messages?from_id=${user.user_id}&user=${lUser}`)
 			messages = await messages.json()
