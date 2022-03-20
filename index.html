@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Whatsapp web chat template - Bootdey.com</title>
+    <title>Aligram</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link rel="icon" type="image/png" href="/favicon.png"/>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="chat/style.css">
@@ -22,8 +23,13 @@
             </div>
           </div>
           <p class="col-sm-1 col-xs-1"><strong id="userName"></strong></p>
-          <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
-            <i id="logOut" class="fa fa-sign-out fa-2x  pull-right" aria-hidden="true"></i>
+<!--          <div class="col-sm-2 col-xs-2 heading-compose  pull-right">-->
+<!--            <i class="fa-solid fa-trash-can fa-2x pull-right" id="DeleteAccount" aria-hidden="true"></i>-->
+<!--          </div>-->
+          <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+            <i id="logOut" class="fa-solid fa-right-from-bracket fa-2x pull-right" aria-hidden="true"></i>
+<!--            <i class="fa-solid fa-right-from-bracket"></i>-->
+<!--            <i class="fa-solid fa-arrow-right-from-bracket"></i>-->
           </div>
           <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
             <i class="fa fa-comments fa-2x  pull-right" id="newChat" aria-hidden="true"></i>
@@ -85,7 +91,7 @@
         </div>
         <div class="col-sm-1 col-xs-1  heading-dot pull-right">
 <!--          <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>-->
-          <i class="fa fa-solid fa-trash-can fa-2x pull-right" aria-hidden="true"></i>
+          <i id="trash" class="fa-solid fa-trash-can fa-2x pull-right" aria-hidden="true"></i>
         </div>
       </div>
 
@@ -107,6 +113,9 @@
       </div>
     </div>
   </div>
+</div>
+<div class="col-sm-1 col-xs-1  heading-dot pull-right">
+  <i id="deleteAccount" class="fa-solid fa-trash-can fa-2x pull-right" aria-hidden="true"></i>
 </div>
 <script type="text/javascript">
 $(function(){

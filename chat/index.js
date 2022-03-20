@@ -10,7 +10,10 @@ window.addEventListener("DOMContentLoaded", async () => {
 	const composeText = document.querySelector("#composeText")
 	const logOut = document.querySelector("#logOut")
 	const userName = document.querySelector("#userName")
-	// agar user_id localstorageda bo'lmasa homega qaytarib yuboradi
+	const deleteAccount = document.querySelector("#deleteAccount")
+	// const trash = document.querySelector("#trash")
+
+	// agar user_id localstorageda bo'lmasa login qaytarib yuboradi
 	if(!lUser){
 		window.location = "/login/"
 	}
@@ -85,10 +88,26 @@ window.addEventListener("DOMContentLoaded", async () => {
 	logOut.addEventListener("click",()=>{
 		if(confirm("Do you really want to log out?")){
 			window.localStorage.removeItem("user")
-			window.location.reload()
+			window.location = "/login"
 		}
 	})
 
+	deleteAccount.addEventListener("click",async () => {
+		if (!confirm("Are you sure you want to delete your account?")) return
+		let password = prompt("Enter your password to delete your account")
+		let result = await fetch(`${host}/users?`,{
+			method: 'DELETE',
+			body: JSON.stringify({
+				user: lUser,
+				password: `${password}`
+			})
+		})
+		if(result.status !== 200){
+			alert("Incorrect password")
+		}
+		alert("Account successfully deleted")
+		window.location.reload()
+	})
 })
 
 /**
@@ -105,7 +124,7 @@ function renderAllUsers(data,all){
 		users = document.querySelector("#actUsers")
 	}
 	users.innerHTML = ""
-
+	if(!data) return
 
 	for (const user of data) {
 		user.username = capitalize(user.username)
@@ -133,7 +152,7 @@ function renderAllUsers(data,all){
 		row.append(name, time)
 		main.append(row)
 		body.append(avatar, main)
-		users.prepend(body)
+		users.append(body)
 
 		body.addEventListener("click", async () => {
 			const sendingArea = document.querySelector("#sendingArea")
@@ -181,3 +200,4 @@ function renderChats(data,reciverId){
 		conversation.append(body)
 	}
 }
+

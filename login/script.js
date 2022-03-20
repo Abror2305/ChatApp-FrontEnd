@@ -2,7 +2,7 @@
 
 let sSubmit = document.querySelector("#signUp");
 let lSubmit = document.querySelector("#login");
-let host = "https://chatappnodejs23.herokuapp.com";
+let host = "http://192.168.1.8:4000";
 sSubmit.addEventListener("click",async function () {
     let username = document.querySelector("#signUsername")?.value;
     let age = document.querySelector("#signAge")?.value;
