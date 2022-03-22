@@ -1,6 +1,7 @@
 'use strict'
 
 const lUser = window.localStorage?.user
+let userId;
 window.addEventListener("DOMContentLoaded", async () => {
 
 	const newUser = document.querySelector("#newChat")
@@ -11,7 +12,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	const logOut = document.querySelector("#logOut")
 	const userName = document.querySelector("#userName")
 	const deleteAccount = document.querySelector("#deleteAccount")
-	// const trash = document.querySelector("#trash")
+	const deleteChat = document.querySelector("#trash")
 
 	// agar user_id localstorageda bo'lmasa login qaytarib yuboradi
 	if(!lUser){
@@ -110,6 +111,37 @@ window.addEventListener("DOMContentLoaded", async () => {
 		alert("Account successfully deleted")
 		window.location.reload()
 	})
+
+	deleteChat.addEventListener("click",async e=> {
+		if(!confirm("Are you sure to delete account")) return
+		const selectedUser = document.querySelector("#selectedUser")
+		const from_id = +selectedUser.dataset.id
+
+		let result =await fetch(host+"/message",{
+			method: "POST",
+			body: JSON.stringify({
+				user: lUser,
+				from_id,
+			})
+		})
+		if(result.status !== 200){
+			return alert("Can't delete messages")
+		}
+		alert("Successfully deleted")
+	})
+	setInterval(async () => {
+		let userActivities =await fetch(`${host}/userAct?user=${lUser}`)
+		let { userAct } = await userActivities.json()
+
+		console.log(userId);
+		// render Active users
+		renderAllUsers(userAct,false)
+		if(userId){
+			let messages = await fetch(`${host}/messages?from_id=${userId}&user=${lUser}`)
+			messages = await messages.json()
+			renderChats(messages.chats,userId)
+		}
+	},1000)
 })
 
 /**
@@ -176,6 +208,7 @@ function renderAllUsers(data,all){
 			selectedImg.append(img)
 			let messages = await fetch(`${host}/messages?from_id=${user.user_id}&user=${lUser}`)
 			messages = await messages.json()
+			userId = user.user_id
 			renderChats(messages.chats,user.user_id)
 		})
 	}
