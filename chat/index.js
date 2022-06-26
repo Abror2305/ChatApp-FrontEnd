@@ -89,7 +89,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	logOut.addEventListener("click",()=>{
 		if(confirm("Do you really want to log out?")){
 			window.localStorage.removeItem("user")
-			window.location = "/login"
+			window.location = "/login/"
 		}
 	})
 
@@ -109,7 +109,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 			return alert("Incorrect password")
 		}
 		alert("Account successfully deleted")
-		window.location.reload()
+		window.location = "/login/"
 	})
 
 	deleteChat.addEventListener("click",async e=> {
